@@ -1,0 +1,35 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+  <p>A Platform to display Youtube top 10 video Data</p>
+</div>
+<p style="width: 100%;text-align: center" *ngIf="errorMessage">{{errorMessage}}</p>
+<mat-table *ngIf="(!errorMessage)" [dataSource]="dataSource" matSort matSortActive="PublishedAt" matSortDirection="asc" >
+    <ng-container  matColumnDef="Title">
+        <mat-header-cell *matHeaderCellDef mat-sort-header >Title</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.Title}}</mat-cell>
+    </ng-container>
+    <ng-container  matColumnDef="Description">
+        <mat-header-cell *matHeaderCellDef  mat-sort-header >Description</mat-header-cell>
+        <mat-cell *matCellDef="let element" >{{element.Description | truncate:[150, '...'] }}</mat-cell>
+    </ng-container>
+    <ng-container  matColumnDef="PublishedAt">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>PublishedAt</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.PublishedAt}}</mat-cell>
+    </ng-container>
+    <ng-container  matColumnDef="URL">
+        <mat-header-cell *matHeaderCellDef >Default Thumbnail</mat-header-cell>
+        <mat-cell *matCellDef="let element"><img [src]="element.URL" /></mat-cell>
+    </ng-container>
+  <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: tableColumns"></mat-row>
+  </mat-table>
+  
+
+<mat-paginator [length]="length" [pageSize]="pageSize"
+(page)="pageEvent = getServerData($event)" >
+</mat-paginator>
+
+<router-outlet></router-outlet>
